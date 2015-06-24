@@ -1,0 +1,36 @@
+#R Code#
+CIRjump<- function(a,b,sigma,lambda,ro,T,N)
+{
+DeltaT = T/N
+Path = rep(0,N)
+Path[1] = ro         
+for(i in 2:N){
+              epsilon=rnorm(1)
+              Path[i] = Path[i-1] + a*(b-Path[i-1])*DeltaT + sigma*sqrt(Path[i-1])*sqrt(DeltaT)*epsilon
+                     }
+for(i in 1:N){
+                     P = rpois(1,lambda*DeltaT)
+             
+
+
+             if(P==0){
+                     for(t in i:length(Path)){
+                                                               Path[t]=Path[t]
+                                                              }
+                             }
+              else{
+                        U=rep(0,P)
+                        for(m in 1:P){
+                                                 U[m]=runif(1,-0.005,0049)
+                                                }
+                     for(p in 1:length(U)){
+                                                            for(t in i:length(Path)){
+                                                                                                    Path[t]=Path[t]*(1 + U[p])
+                                                                                                    }                      
+                                                          }
+                         }        
+             }
+
+ plot(seq(0,T,length.out= N),Path,type='l',col = 'blue', xlab = "Temps" , ylab= "Taux",
+main=paste(paste(paste(paste(paste(paste("CIR avec sauts Poissoniens a=",a,sep='')," b=",b,sep='')," sigma=",sigma,sep='')," lambda=",lambda,sep='')," N=",N,sep='')))
+}
