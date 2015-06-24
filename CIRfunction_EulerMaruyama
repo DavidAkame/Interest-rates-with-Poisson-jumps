@@ -1,0 +1,12 @@
+#R Code#
+CIR<- function (a,b,sigma,r0,T,N) {
+                             DeltaT = T/N
+                             Path = rep(0,N)
+                             Path[1] = r0
+                              for (i in 2:N)
+                                             {
+                                              epsilon = rnorm(1)
+                                              Path[i] = Path[i-1] + a*(b-Path[i-1])*DeltaT + sigma*sqrt(DeltaT)*sqrt(Path[i-1])*epsilon
+                                             }
+plot(seq(0,T,length.out= N),Path,type='l',col = 'blue', xlab = "Temps" , ylab= "Taux",main=paste(paste(paste(paste(paste(paste("CIR avec a=",a,sep='')," b=",b,sep='')," sigma=",sigma,sep='')," N=",N,sep='')," r0=",r0,sep='')))
+                                 }
